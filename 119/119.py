@@ -1,13 +1,13 @@
 import turtle
 
-# Set up the screen
+# set up the screen
 wn = turtle.Screen()
 wn.bgcolor("white")
 
 # make pizza dough
 dough = turtle.Turtle()
-dough.fillcolor("burlywood2")
 dough.speed(0)
+dough.fillcolor("burlywood2")
 dough.penup()
 dough.goto(0,-225)
 dough.pendown()
@@ -16,16 +16,23 @@ dough.circle(225)
 dough.end_fill()
 dough.hideturtle()
 
-# ask user for type of sauce (incomplete)
+# ask user for type of sauce
 sauce = turtle.Turtle()
-sauce.fillcolor("darkred")
-sauce.pencolor("darkred")
-'''input("What type of sauce? Alfredo or Tomato.")
-if input == "Alfredo":
+sauce.speed(0)
+sauce_type = input("Alfredo or Tomato sauce? ")
+
+# forces user to input correcct input
+while sauce_type != "Alfredo" and sauce_type != "Tomato":
+    print("Invalid choice. Please enter Alfredo or Tomato.")
+    sauce_type = input("What type of sauce? ")
+
+# sets sauce color based on user input
+if sauce_type == "Alfredo":
+    sauce.pencolor("white")
     sauce.fillcolor("white")
 else:
-    sauce.pencolor("red")'''
-sauce.speed(0)
+    sauce.pencolor("darkred")
+    sauce.fillcolor("darkred")
 
 # make many circles at (0,0) to replicate the curves of sauce
 for pizza in range(8):
@@ -35,7 +42,7 @@ for pizza in range(8):
     sauce.right(45)
     sauce.end_fill()
 
-# Define coordinates for a custom shape (cheese)
+# define coordinates for a custom shape (cheese)
 custom_polygon = ((0, 11), (2, 10), (5, 10), (7, 7), 
                   (10, 5), (10, 2), (11, 0), (10, -2), (10, -5), (7, -7), 
                   (5, -10), (2, -10), (0, -11), (-2, -10), 
@@ -45,7 +52,7 @@ custom_polygon = ((0, 11), (2, 10), (5, 10), (7, 7),
 # Register the new custom shape and name it
 wn.register_shape("pizza_cheese", custom_polygon)
 
-# Create your turtle and apply the shape
+# create turtle and apply the shape
 cheese = turtle.Turtle()
 cheese.shape("pizza_cheese")
 cheese.fillcolor("cornsilk1")
@@ -54,5 +61,7 @@ cheese.fillcolor("cornsilk1")
 cheese.shapesize(16.5)
 cheese.stamp()
 
-# Keep the window open
+#pepperoni
+
+# keep the window open
 wn.mainloop()
