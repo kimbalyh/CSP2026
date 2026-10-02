@@ -4,8 +4,12 @@ import turtle as trtl
 wn = trtl.Screen()
 wn.bgcolor("white")
 
+# introduction
+trtl.textinput("Welcome!","Are you ready to create your own pizza??")
+trtl.textinput("Pizza Maker 283190","Even if you aren't, let's get started :)")
+
 # ask user what size of pizza
-dough_size = trtl.textinput("What size pizza?","Small, Medium, or Large: ")
+dough_size = trtl.textinput("What size pizza would you like?","Small, Medium, or Large: ")
 dough_size = dough_size.lower()
 
 # force user to put in valid input
@@ -31,7 +35,7 @@ sauce = trtl.Turtle()
 sauce.speed(0)
 
 # ask user for sauce type
-sauce_type = trtl.textinput("What kind of suace?", "Alfredo or Tomato:")
+sauce_type = trtl.textinput("What kind of suace would you like?", "Alfredo or Tomato:")
 sauce_type = sauce_type.lower()
 
 # forces user to input correcct input
@@ -73,11 +77,11 @@ cheese.fillcolor("cornsilk1")
 cheese.shapesize(circle_size/1.3) #fix this line, appears, doesn't change size
 
 # ask user to pick toppings
-toppings = trtl.textinput("What toppings?", "Pepperoni, mushroom, both, or none: ").lower() 
+toppings = trtl.textinput("What toppings would you like?", "Pepperoni or mushroom: ").lower() 
 toppings = toppings.lower() 
 
-while toppings not in ["pepperoni", "mushroom", "both", "none"]:
-    toppings = trtl.textinput("Invalid Choice", "Please enter pepperoni, mushroom, both, or none.")
+while toppings not in ["pepperoni", "mushroom"]:
+    toppings = trtl.textinput("Invalid Choice", "Please enter pepperoni or mushroom:")
 
 # mushroom topping
 custom_polygon = ((-1,11), (2,11), (6,10), (8,8), (9,6), (9,4), (8,2), (6,1), (4,1), (3,2), 
@@ -89,18 +93,65 @@ custom_polygon = ((-1,11), (2,11), (6,10), (8,8), (9,6), (9,4), (8,2), (6,1), (4
 # Register the new custom shape and name it
 wn.register_shape("pizza_mushroom", custom_polygon)
 
-# create turtle and apply the shape
+# create mushroom turtle and size
 shroom = trtl.Turtle()
 shroom.pensize(10)
 shroom.pencolor("black")
 shroom.fillcolor("tan")
+shroom.hideturtle()
 shroom.shape("pizza_mushroom")
 shroom.shapesize(circle_size / 6)
 
+# mushroom locations
+mushroom_locations = [(-100, 100), (0, 120), (100, 100), (-130, 20),
+                       (-30, 0),(60, 20), (130, -40), (-100, -80),
+                       (-20, -120), (60, -100)]
+
+# if the user chose mushroom
+if toppings == "mushroom":
+    for x, y in mushroom_locations:
+        shroom.penup()
+        scale = circle_size / 25
+        shroom.goto(x * scale, y * scale)
+        shroom.stamp()
+
+# create pepperoni turtle and size
 pepperoni = trtl.Turtle()
 pepperoni.fillcolor("brown")
+pepperoni.hideturtle()
 pepperoni.shape("circle")
 pepperoni.shapesize(circle_size / 8)
+
+# pepperoni locations
+pepperoni_locations = [(-100, 100), (0, 120), (100, 100), (-130, 20),
+                       (-30, 0),(60, 20), (130, -40), (-100, -80),
+                       (-20, -120), (60, -100)]
+
+# if user chooses pepperoni
+if toppings == "pepperoni":
+    for x, y in pepperoni_locations:
+        pepperoni.penup()
+        scale = circle_size / 25
+        pepperoni.goto(x * scale, y * scale)
+        pepperoni.stamp()
+
+#create slices in pizza
+slices = trtl.Turtle()
+slices.hideturtle()
+slices.pensize(2)
+
+for angle in range(0, 360, 45):
+    slices.goto(0, 0)
+    slices.setheading(angle)
+
+    for cuts in range(7):
+        slices.pendown()
+        slices.forward(circle_size)
+        slices.penup()
+        slices.forward(circle_size / 2)
+
+#outro
+trtl.textinput("Pizza Maker 283190","Wow, looks so tasty! Hope you enjoy. See you again soon ;)")
 
 # keep the window open
 wn.mainloop()
