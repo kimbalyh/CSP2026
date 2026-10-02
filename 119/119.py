@@ -35,7 +35,7 @@ sauce = trtl.Turtle()
 sauce.speed(0)
 
 # ask user for sauce type
-sauce_type = trtl.textinput("What kind of suace would you like?", "Alfredo or Tomato:")
+sauce_type = trtl.textinput("What kind of sauce would you like?", "Alfredo or Tomato:")
 sauce_type = sauce_type.lower()
 
 # forces user to input correcct input
