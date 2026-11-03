@@ -15,10 +15,22 @@ fruit_color = ["blue", "purple", "red", "yellow"]
 fruit_size = [1.5, 2, 3, 3.5]
 
 xcor = 0
-ycor = 230
+ycor = 280
 
 fruits = []
 current_fruit = None
+
+top_line = 225
+line = trtl.Turtle()
+line.hideturtle()
+line.speed(0)
+line.penup()
+line.goto(-300, top_line)
+line.pendown()
+line.pensize(3)
+line.color("red")
+line.goto(300, top_line)
+line.penup()
 
 # TODO: LATER -  add score, point values, leaderboard
 
@@ -57,15 +69,19 @@ def drop_fruit():
 
     while current_fruit.ycor() > -250:
        current_fruit.goto(current_fruit.xcor(), current_fruit.ycor() - 10)
-       if check_collision() != None:
-           merge_fruits(check_collision())
-           break
-       
+       hit_fruit = check_collision()
+       if hit_fruit != None:
+           if current_fruit.fruit_index == hit_fruit.fruit_index and current_fruit.fruit_index < 3:
+               merge_fruits(hit_fruit)
+           else: 
+                break
+
+    if check_game_over():
+      return   
     random_fruit()
     wn.onkeypress(move_right, "d")
     wn.onkeypress(move_left, "a")
 
-# TODO: COLLISION - checks if fruits touch, if yes, stop falling, need to make the hitbox more accurate for different shape sizes
 def check_collision():
     for fruit in fruits:
         if fruit != current_fruit:
@@ -73,17 +89,17 @@ def check_collision():
                 return fruit
     return None
 
-# TODO: add function to merge alike fruits 
 def merge_fruits(fruit):
+    global current_fruit
     if current_fruit.fruit_index == fruit.fruit_index and current_fruit.fruit_index < 3:
         new_index = current_fruit.fruit_index + 1
 
-        x = current_fruit.xcor()
-        y = current_fruit.ycor()
+        x = fruit.xcor()
+        y = fruit.ycor()
 
         current_fruit.hideturtle()
         fruit.hideturtle()
-
+ 
         fruits.pop(fruits.index(current_fruit))
         fruits.pop(fruits.index(fruit))
 
@@ -97,11 +113,19 @@ def merge_fruits(fruit):
         new_fruit.fruit_index = new_index
 
         fruits.append(new_fruit)
+        current_fruit = new_fruit
 
-# fix how the fruits keep going slightly up after collision
-# make fruits keep falling until touch bottom of screen after collision?
-
-# TODO: LATER - add function? if fruit touch line at top, game over (break)
+# TODO: add function? if fruit touch line at top, game over
+def check_game_over():
+    for fruit in fruits:
+        if fruit.ycor() >= top_line:
+            wn.clear()
+            wn.title("Game Over")
+            game_over = trtl.Turtle()
+            game_over.hideturtle()
+            game_over.write("GAME OVER", align="center", font=("Arial", 30, "bold"))
+            return True
+    return False
 
 # TODO: LATER - add function? start game/try again button
 
