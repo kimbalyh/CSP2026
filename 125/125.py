@@ -7,35 +7,46 @@ import random as rand
 
 #-----game configuration----
 wn = trtl.Screen()
-wn.setup(width= 600, height= 800)
+wn.setup(width= 500, height= 700)
 wn.title("Fruit Merge Game")
 
-fruit_shape = ["circle", "circle", "circle", "circle"]
-fruit_color = ["blue", "purple", "red", "yellow"]
-fruit_size = [1.5, 2, 3, 3.5]
+box = trtl.Turtle()
+box.hideturtle()
+box.speed(0)
+box.pensize(3)
+box.penup()
+box.goto(-200, 200)
+box.pendown()
+box.goto(-200, -300)
+box.goto(200, -300)
+box.goto(200, 200)
 
-xcor = 0
-ycor = 280
-
-fruits = []
-current_fruit = None
-
-top_line = 225
+top_line = 200
 line = trtl.Turtle()
 line.hideturtle()
 line.speed(0)
 line.penup()
-line.goto(-300, top_line)
+line.goto(-200, top_line)
 line.pendown()
 line.pensize(3)
 line.color("red")
-line.goto(300, top_line)
+line.goto(200, top_line)
 line.penup()
+
+fruit_shape = ["circle", "circle", "circle", "circle"]
+fruit_color = ["blue", "purple", "red", "yellow"] # add ~4 more fruits that aren't randomized at the top, must be merged to get
+fruit_size = [1.5, 2, 3, 3.5]
+
+xcor = 0
+ycor = 250
+
+fruits = []
+current_fruit = None
 
 # TODO: LATER -  add score, point values, leaderboard
 
 #-----game functions--------
-# create random fruit
+
 def random_fruit():
     global current_fruit
 
@@ -55,11 +66,11 @@ def random_fruit():
     fruits.append(current_fruit)
 
 def move_right():
-    if current_fruit.xcor() < 200:
+    if current_fruit.xcor() < 150:
         current_fruit.goto(current_fruit.xcor() + 20, current_fruit.ycor())
 
 def move_left():
-    if current_fruit.xcor() > -200:
+    if current_fruit.xcor() > -150:
         current_fruit.goto(current_fruit.xcor() - 20, current_fruit.ycor())
 
 def drop_fruit():
@@ -85,7 +96,7 @@ def drop_fruit():
 def check_collision():
     for fruit in fruits:
         if fruit != current_fruit:
-            if current_fruit.distance(fruit) < 50:
+            if current_fruit.distance(fruit) < 40: # fix hitbox for diff shapes sigh
                 return fruit
     return None
 
@@ -130,10 +141,8 @@ def check_game_over():
 # TODO: LATER - add function? start game/try again button
 
 #-----events----------------\
-# random fruit generated
 random_fruit()
 
-# fruit controls 
 wn.onkeypress(move_right, "d")
 wn.onkeypress(move_left, "a")
 wn.onkeypress(drop_fruit, "space")
