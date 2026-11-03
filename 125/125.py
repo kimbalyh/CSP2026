@@ -12,7 +12,7 @@ wn.title("Fruit Merge Game")
 
 fruit_shape = ["circle", "circle", "circle", "circle"]
 fruit_color = ["blue", "purple", "red", "yellow"]
-fruit_size = [1.5, 2, 3, 3.75]
+fruit_size = [1.5, 2, 3, 3.5]
 
 xcor = 0
 ycor = 230
@@ -31,7 +31,7 @@ def random_fruit():
     current_fruit.hideturtle()
 
     fruit_index = rand.randint(0,3)
-    current_fruit.fruit_size = fruit_size[fruit_index]
+    current_fruit.fruit_index = fruit_index
 
     current_fruit.shape(fruit_shape[fruit_index])
     current_fruit.fillcolor(fruit_color[fruit_index])
@@ -53,11 +53,14 @@ def move_left():
 def drop_fruit():
     wn.onkeypress(None, "d")
     wn.onkeypress(None, "a")
+    current_fruit.speed(0)
+
     while current_fruit.ycor() > -250:
-       current_fruit.speed(0)
        current_fruit.goto(current_fruit.xcor(), current_fruit.ycor() - 10)
        if check_collision() != None:
-            break
+           merge_fruits(check_collision())
+           break
+       
     random_fruit()
     wn.onkeypress(move_right, "d")
     wn.onkeypress(move_left, "a")
@@ -67,10 +70,36 @@ def check_collision():
     for fruit in fruits:
         if fruit != current_fruit:
             if current_fruit.distance(fruit) < 50:
-                return fruits
+                return fruit
     return None
 
 # TODO: add function to merge alike fruits 
+def merge_fruits(fruit):
+    if current_fruit.fruit_index == fruit.fruit_index and current_fruit.fruit_index < 3:
+        new_index = current_fruit.fruit_index + 1
+
+        x = current_fruit.xcor()
+        y = current_fruit.ycor()
+
+        current_fruit.hideturtle()
+        fruit.hideturtle()
+
+        fruits.pop(fruits.index(current_fruit))
+        fruits.pop(fruits.index(fruit))
+
+        new_fruit = trtl.Turtle()
+        new_fruit.penup()
+        new_fruit.speed(0)
+        new_fruit.goto(x, y)
+        new_fruit.shape(fruit_shape[new_index])
+        new_fruit.fillcolor(fruit_color[new_index])
+        new_fruit.shapesize(fruit_size[new_index])
+        new_fruit.fruit_index = new_index
+
+        fruits.append(new_fruit)
+
+# fix how the fruits keep going slightly up after collision
+# make fruits keep falling until touch bottom of screen after collision?
 
 # TODO: LATER - add function? if fruit touch line at top, game over (break)
 
