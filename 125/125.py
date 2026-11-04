@@ -30,9 +30,10 @@ start_button.stamp()
 start_button.goto(0, -55)
 start_button.write("START", align="center", font=("Arial", 25, "normal"))
 
-fruit_shape = ["circle", "circle", "circle", "circle"]
-fruit_color = ["blue", "purple", "red", "yellow"] # add ~4 more fruits that aren't randomized at the top, must be merged to get
-fruit_size = [1.5, 2, 3, 3.5]
+# later - turn turtle shapes into actual fruit images 
+fruit_shape = ["circle", "circle", "circle", "circle", "circle", "circle", "circle", "circle"] 
+fruit_color = ["blue", "purple", "red", "yellow", "green", "orange", "pink", "brown"] 
+fruit_size = [1.5, 2, 3, 3.5, 4.5, 5.5, 6.5, 7.5]
 
 xcor = 0
 ycor = 250
@@ -40,21 +41,22 @@ ycor = 250
 fruits = []
 current_fruit = None
 
-# TODO: LATER -  add score, point values, leaderboard
+# TODO: later - highscore system
+score = 0
+score_writer = None
 
 #-----game functions--------
 def start_game(x, y):
-    global game_started
+    global game_started, score
     
     if -83 <= x <= 77 and -67 <= y <= -7:
         if game_started == False:
           game_started = True
           wn.clear()
-          '''title.clear()
-          start_button.clear()
-          start_button.hideturtle()'''
 
+          score = 0
           fruit_box()
+          score_display()
           random_fruit()
           wn.onkeypress(move_right, "d")
           wn.onkeypress(move_left, "a")
@@ -117,10 +119,10 @@ def drop_fruit():
     current_fruit.speed(0)
 
     while current_fruit.ycor() > -250:
-       current_fruit.goto(current_fruit.xcor(), current_fruit.ycor() - 10)
+       current_fruit.goto(current_fruit.xcor(), current_fruit.ycor() - 5) # make it go down faster but less pixels at a time
        hit_fruit = check_collision()
        if hit_fruit != None:
-           if current_fruit.fruit_index == hit_fruit.fruit_index and current_fruit.fruit_index < 3:
+           if current_fruit.fruit_index == hit_fruit.fruit_index and current_fruit.fruit_index < len(fruit_shape) - 1:
                merge_fruits(hit_fruit)
            else: 
                 break
@@ -131,17 +133,25 @@ def drop_fruit():
     wn.onkeypress(move_right, "d")
     wn.onkeypress(move_left, "a")
 
-def check_collision():
+def check_collision(): # later - if different fruit touch another, they "bump" and move away from each other
     for fruit in fruits:
         if fruit != current_fruit:
-            if current_fruit.distance(fruit) < 40: # fix hitbox for diff shapes sigh
+            current_radius = fruit_size[current_fruit.fruit_index] * 10.2
+            other_radius = fruit_size[fruit.fruit_index] * 10.2
+            distance = current_radius + other_radius
+            
+            if current_fruit.distance(fruit) < distance:
                 return fruit
     return None
 
 def merge_fruits(fruit):
     global current_fruit
-    if current_fruit.fruit_index == fruit.fruit_index and current_fruit.fruit_index < 3:
+    if current_fruit.fruit_index == fruit.fruit_index and current_fruit.fruit_index < len(fruit_shape) - 1:
         new_index = current_fruit.fruit_index + 1
+        global score
+        score += new_index * 10
+        score_writer.clear()
+        score_writer.write("Score: " + str(score), font=("Arial", 18, "bold"))
 
         x = fruit.xcor()
         y = fruit.ycor()
@@ -164,7 +174,6 @@ def merge_fruits(fruit):
         fruits.append(new_fruit)
         current_fruit = new_fruit
 
-# TODO: add function? if fruit touch line at top, game over
 def check_game_over():
     for fruit in fruits:
         if fruit.ycor() >= top_line:
@@ -189,12 +198,28 @@ def check_game_over():
             retry_button.goto(0, -25)
             retry_button.write("TRY AGAIN", align="center", font=("Arial", 20, "normal"))
             
+            final_score = trtl.Turtle()
+            final_score.hideturtle()
+            final_score.penup()
+            final_score.goto(0, -100)
+            final_score.write("Final Score: " + str(score), align="center", font=("Arial", 20, "normal"))
+            
             wn.onclick(retry_game)
             return True
     return False
 
+def score_display():
+    global score_writer
+
+    score_writer = trtl.Turtle()
+    score_writer.hideturtle()
+    score_writer.penup()
+    score_writer.goto(-200, 280)
+
+    score_writer.write("Score: " + str(score), font=("Arial", 18, "bold"))
+    
 def retry_game(x, y):
-    global fruits, current_fruit
+    global fruits, current_fruit, score
 
     if -87.5 <= x <= 87.5 and -51.5 <= y <= 2:
         wn.clear()
@@ -202,8 +227,10 @@ def retry_game(x, y):
 
         fruits = []
         current_fruit = None
-
+        score = 0
+        
         fruit_box()
+        score_display()
         random_fruit()
 
         wn.onclick(None)
