@@ -1,5 +1,4 @@
 # 125_Shall_we_play_a_game.py
-
 #-----import statements-----
 import turtle as trtl
 import random as rand
@@ -10,28 +9,26 @@ wn = trtl.Screen()
 wn.setup(width= 500, height= 700)
 wn.title("Fruit Merge Game")
 
-box = trtl.Turtle()
-box.hideturtle()
-box.speed(0)
-box.pensize(3)
-box.penup()
-box.goto(-200, 200)
-box.pendown()
-box.goto(-200, -300)
-box.goto(200, -300)
-box.goto(200, 200)
+title = trtl.Turtle()
+title.hideturtle()
+title.penup()
+title.goto(0, 50)
+title.write("FRUIT MERGE", align="center", font=("Arial", 40, "bold"))
+title.goto(0, 20)
+title.write("Get as many points as you can by merging fruits!", align="center", font=("Arial", 15, "normal"))
 
-top_line = 200
-line = trtl.Turtle()
-line.hideturtle()
-line.speed(0)
-line.penup()
-line.goto(-200, top_line)
-line.pendown()
-line.pensize(3)
-line.color("red")
-line.goto(200, top_line)
-line.penup()
+game_started = False
+start_button = trtl.Turtle()
+start_button.speed(0)
+start_button.hideturtle()
+start_button.shape("square")
+start_button.penup()
+start_button.goto(-3, -37)
+start_button.fillcolor("pink")
+start_button.shapesize(stretch_wid=3, stretch_len=8)
+start_button.stamp()
+start_button.goto(0, -55)
+start_button.write("START", align="center", font=("Arial", 25, "normal"))
 
 fruit_shape = ["circle", "circle", "circle", "circle"]
 fruit_color = ["blue", "purple", "red", "yellow"] # add ~4 more fruits that aren't randomized at the top, must be merged to get
@@ -46,6 +43,47 @@ current_fruit = None
 # TODO: LATER -  add score, point values, leaderboard
 
 #-----game functions--------
+def start_game(x, y):
+    global game_started
+    
+    if -83 <= x <= 77 and -67 <= y <= -7:
+        if game_started == False:
+          game_started = True
+          wn.clear()
+          '''title.clear()
+          start_button.clear()
+          start_button.hideturtle()'''
+
+          fruit_box()
+          random_fruit()
+          wn.onkeypress(move_right, "d")
+          wn.onkeypress(move_left, "a")
+          wn.onkeypress(drop_fruit, "space")
+
+def fruit_box():
+    box = trtl.Turtle()
+    box.hideturtle()
+    box.speed(0)
+    box.pensize(5)
+    box.penup()
+    box.goto(-200, 200)
+    box.pendown()
+    box.goto(-200, -300)
+    box.goto(200, -300)
+    box.goto(200, 200)
+
+    global top_line
+    top_line = 200
+    line = trtl.Turtle()
+    line.hideturtle()
+    line.speed(0)
+    line.penup()
+    line.goto(-200, top_line)
+    line.pendown()
+    line.pensize(5)
+    line.color("red")
+    line.goto(200, top_line)
+    line.penup()
 
 def random_fruit():
     global current_fruit
@@ -132,20 +170,49 @@ def check_game_over():
         if fruit.ycor() >= top_line:
             wn.clear()
             wn.title("Game Over")
+
             game_over = trtl.Turtle()
             game_over.hideturtle()
-            game_over.write("GAME OVER", align="center", font=("Arial", 30, "bold"))
+            game_over.penup()
+            game_over.goto(0, 40)
+            game_over.write("GAME OVER", align="center", font=("Arial", 40, "bold"))
+
+            retry_button = trtl.Turtle()
+            retry_button.speed(0)
+            retry_button.hideturtle()
+            retry_button.shape("square")
+            retry_button.penup()
+            retry_button.goto(-3, -7)
+            retry_button.fillcolor("pink")
+            retry_button.shapesize(stretch_wid=2.75, stretch_len=8.75)
+            retry_button.stamp()
+            retry_button.goto(0, -25)
+            retry_button.write("TRY AGAIN", align="center", font=("Arial", 20, "normal"))
+            
+            wn.onclick(retry_game)
             return True
     return False
 
-# TODO: LATER - add function? start game/try again button
+def retry_game(x, y):
+    global fruits, current_fruit
+
+    if -87.5 <= x <= 87.5 and -51.5 <= y <= 2:
+        wn.clear()
+        wn.title("Fruit Merge Game")
+
+        fruits = []
+        current_fruit = None
+
+        fruit_box()
+        random_fruit()
+
+        wn.onclick(None)
+        wn.onkeypress(move_right, "d")
+        wn.onkeypress(move_left, "a")
+        wn.onkeypress(drop_fruit, "space")
 
 #-----events----------------\
-random_fruit()
-
-wn.onkeypress(move_right, "d")
-wn.onkeypress(move_left, "a")
-wn.onkeypress(drop_fruit, "space")
+wn.onclick(start_game)
 
 wn.listen()
 wn.mainloop()
