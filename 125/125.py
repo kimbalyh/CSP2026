@@ -55,14 +55,14 @@ def start_game(x, y): # whoops add instructions on how to control the fruit lol
           wn.clear()
 
           score = 0
-          preset()
+          background()
           score_display()
           random_fruit()
           wn.onkeypress(move_right, "d")
           wn.onkeypress(move_left, "a")
           wn.onkeypress(drop_fruit, "space")
 
-def preset():
+def background():
     box = trtl.Turtle()
     box.hideturtle()
     box.speed(0)
@@ -239,7 +239,7 @@ def retry_game(x, y):
         current_fruit = None
         score = 0
         
-        preset()
+        background()
         score_display()
         random_fruit()
 
