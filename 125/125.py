@@ -46,7 +46,7 @@ score = 0
 score_writer = None
 
 #-----game functions--------
-def start_game(x, y):
+def start_game(x, y): # whoops add instructions on how to control the fruit lol
     global game_started, score
     
     if -83 <= x <= 77 and -67 <= y <= -7:
@@ -55,14 +55,14 @@ def start_game(x, y):
           wn.clear()
 
           score = 0
-          fruit_box()
+          preset()
           score_display()
           random_fruit()
           wn.onkeypress(move_right, "d")
           wn.onkeypress(move_left, "a")
           wn.onkeypress(drop_fruit, "space")
 
-def fruit_box():
+def preset():
     box = trtl.Turtle()
     box.hideturtle()
     box.speed(0)
@@ -86,6 +86,16 @@ def fruit_box():
     line.color("red")
     line.goto(200, top_line)
     line.penup()
+
+    instruct = trtl.Turtle()
+    instruct.hideturtle()
+    instruct.speed(0)
+    instruct.penup()
+    instruct.goto(86, 312)
+    instruct.write("A & D keys to move", font=("Arial", 10, "normal"))
+    instruct.penup()
+    instruct.goto(100, 295)
+    instruct.write("Spacebar to drop", font=("Arial", 10, "normal"))
 
 def random_fruit():
     global current_fruit
@@ -136,8 +146,8 @@ def drop_fruit():
 def check_collision(): # later - if different fruit touch another, they "bump" and move away from each other
     for fruit in fruits:
         if fruit != current_fruit:
-            current_radius = fruit_size[current_fruit.fruit_index] * 10.2
-            other_radius = fruit_size[fruit.fruit_index] * 10.2
+            current_radius = fruit_size[current_fruit.fruit_index] * 10.5
+            other_radius = fruit_size[fruit.fruit_index] * 10.5
             distance = current_radius + other_radius
             
             if current_fruit.distance(fruit) < distance:
@@ -214,7 +224,7 @@ def score_display():
     score_writer = trtl.Turtle()
     score_writer.hideturtle()
     score_writer.penup()
-    score_writer.goto(-200, 280)
+    score_writer.goto(-200, 300)
 
     score_writer.write("Score: " + str(score), font=("Arial", 18, "bold"))
     
@@ -229,7 +239,7 @@ def retry_game(x, y):
         current_fruit = None
         score = 0
         
-        fruit_box()
+        preset()
         score_display()
         random_fruit()
 
