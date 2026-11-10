@@ -123,7 +123,7 @@ def move_left():
     if current_fruit.xcor() > -150:
         current_fruit.goto(current_fruit.xcor() - 20, current_fruit.ycor())
 
-def drop_fruit():
+def drop_fruit(): # later - make it drop in radius according to fruit size BUT merge acording to a bigger radius
     wn.onkeypress(None, "d")
     wn.onkeypress(None, "a")
     current_fruit.speed(0)
