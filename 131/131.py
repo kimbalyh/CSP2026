@@ -62,20 +62,25 @@ wn.tracer(1)
 
 #-----game functions--------
 def album_clicked(x, y):
+  global animation_started
   for i in range(len(albums)):
     if albums[i] == "chinese_album":
-      if -625 <= x <= -275 and -375 <= y <= 25: 
-        print("Chinese Album clicked")
+      if -625 <= x <= -275 and -375 <= y <= 25:
+        print("Chinese Album clicked") # TODO: turn it into on screen text later
+        wn.onclick(None)
         chinese_vinyl_animation()
+        
     elif albums[i] == "classical_album":
       if -175 <= x <= 175 and -375 <= y <= 25:
         print("Classical Album clicked")
+        wn.onclick(None)
         classical_vinyl_animation()
+
     elif albums[i] == "english_album":
       if 275 <= x <= 625 and -325 <= y <= 25: 
         print("English Album clicked")
+        wn.onclick(None)
         english_vinyl_animation()
-  
 
 def chinese_vinyl_animation():
   chinese_vinyl.speed(2)
