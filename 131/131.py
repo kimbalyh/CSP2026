@@ -13,6 +13,22 @@ wn.tracer(0)
 target_x = 850  
 
 #-----turtle initialization----
+'''
+old_bg_img = "CSP2026/131/old_bg.gif" 
+wn.addshape(old_bg_img)
+old_bg = trtl.Turtle(shape=old_bg_img)
+
+record_player_img = "CSP2026/131/record_player.gif" 
+wn.addshape(record_player_img)
+record_player = trtl.Turtle(shape=record_player_img)
+record_player.speed(0)
+record_player.penup()
+record_player.goto(-450, -50)
+'''
+
+wood_bg_img = "CSP2026/131/wood_bg.gif" 
+wn.addshape(wood_bg_img)
+wood_bg = trtl.Turtle(shape=wood_bg_img)
 
 chinese_vinyl_img = "CSP2026/131/vinyl.gif" 
 wn.addshape(chinese_vinyl_img)
