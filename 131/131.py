@@ -1,6 +1,7 @@
 # 131 project
 #-----import statements-----
 import turtle as trtl
+import playsound3 as ps3
 
 #-----game configuration----
 wn = trtl.Screen()
@@ -8,9 +9,12 @@ wn.setup(width= 1600, height= 1000)
 # wn.title("")
 
 albums = ["chinese_album", "classical_album", "english_album"]
+messages = ["Wo ai ni", "U are jazzy", "You rock!"]
+songs = []
 wn.tracer(0)
 
 target_x = 850  
+
 
 #-----turtle initialization----
 wood_bg_img = "CSP2026/131/wood_bg.gif" 
@@ -88,7 +92,7 @@ def album_clicked(x, y):
         english_vinyl_animation()
         change_screen()
 
-def chinese_vinyl_animation():
+def chinese_vinyl_animation(): # change english vinyl speed to 2 later after debygging
   chinese_vinyl.speed(2)
   chinese_vinyl.setheading(90)
   chinese_vinyl.goto(-450, 200)
@@ -105,7 +109,7 @@ def classical_vinyl_animation():
     classical_vinyl.forward(25)
 
 def english_vinyl_animation():
-  english_vinyl.speed(2)
+  english_vinyl.speed(0)
   english_vinyl.setheading(90)
   english_vinyl.goto(450, 200)
   english_vinyl.setheading(0)
@@ -129,7 +133,42 @@ def change_screen():
   record_player.goto(-450, -50)
 
   wn.tracer(1)
+  display_message()
 
+def display_message():
+  box = trtl.Turtle()
+  box.hideturtle()
+  box.pensize(100)
+  box.speed(2)
+  box.pencolor("ivory")
+  box.penup()
+  box.goto(-350, 75)
+  box.pendown()
+  box.forward(800)
+
+  messanger = trtl.Turtle()
+  messanger.hideturtle()
+  messanger.textcolor("darkred")
+  #selection()
+
+'''
+def selection():
+  if chinese vinyl touch record player:
+    chinese song plays (index 0)
+    chinese message displays (index 0)
+  elif classical vinyl touch record player:
+    classical song plays (index 1 or index + 1?)
+    classical message displays  (index 1?)
+  elif english vinyl touch record player:
+    english song plays (index 2)
+    english message displays (index 2) - display_message() fct    
+                                 
+
+
+def play_song():
+
+
+'''
 
 #-----events----------------\
 wn.onclick(album_clicked)
