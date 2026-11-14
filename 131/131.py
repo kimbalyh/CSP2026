@@ -9,10 +9,14 @@ wn.setup(width= 1600, height= 1000)
 # wn.title("")
 
 albums = ["chinese_album", "classical_album", "english_album"]
+
 messages = [
-  "Some feelings never grow old. May this melody bring back \n fond memories and remind you how loved you are.", 
-  "May this melody bring warmth to your heart and comfort \n in your soul. Wishing you a peaceful and wonderful day!",
-  "The world is full of little wonders. May you always find \n something beautiful to smile about. You are appreciated!" ]
+  "Some feelings never grow old. May \n this melody bring back fond memories \n and remind you of how loved you are.", 
+  "May this melody bring warmth to your \n heart and comfort in your soul. Wishing \n you a peaceful and wonderful day!",
+  "The world is full of little wonders. \n May you always find something beautiful \n to smile about. You are appreciated!" ]
+
+songs = ["CSP2026/131/chinese_song.mp3", "CSP2026/131/classical_song.mp3", "CSP2026/131/english_song.mp3"]
+current_song = None
 
 wn.tracer(0)
 
@@ -60,8 +64,17 @@ record_player.penup()
 record_player.goto(-450, -50)
 record_player.hideturtle()
 
-# TODO: Albums = Reorder them (1,2,3) on screen + add black outline 
-chinese_album_img = "CSP2026/131/chinese_album.gif" # TODO: resize albums to make them uniform
+'''
+stop_button_img = "CSP2026/131/stop_button_img.gif" #finish making image in canva
+wn.addshape(stop_button_img)
+stop_button = trtl.Turtle(shape=record_player_img)
+stop_button.speed(0)
+stop_button.penup()
+stop_button.goto(150, -50)
+stop_button.hideturtle()
+'''
+
+chinese_album_img = "CSP2026/131/chinese_album.gif" #make album covers same aesthetic 
 wn.addshape(chinese_album_img)
 chinese_album = trtl.Turtle(shape=chinese_album_img)
 chinese_album.speed(0)
@@ -112,6 +125,9 @@ def vinyl_animation(i):
   for vinyl in vinyls:
     vinyl.hideturtle()
   selected_vinyl.showturtle()
+
+  ps3.playsound("CSP2026/131/select_effect.mp3")
+ # want to put pop here
   selected_vinyl.speed(4)
   selected_vinyl.setheading(90)
   selected_vinyl.goto(selected_vinyl.xcor(), 240)
@@ -135,8 +151,9 @@ def vinyl_animation(i):
     selected_vinyl.forward(25)
   selected_vinyl.hideturtle()
 
-  # play_music()
-  print("musica")
+  ps3.playsound("CSP2026/131/click_effect.mp3", block=False)
+  play_music(i)
+  # wait a few secs before displaying a message
   display_message(i)
   
 def change_screen():
@@ -147,30 +164,64 @@ def change_screen():
     english_album.hideturtle()
     old_bg.showturtle()
     record_player.showturtle()
+    # stop_button.showturtle()
     
     wn.tracer(1)
-
-#def play_music():
 
 def display_message(i):
   box = trtl.Turtle()
   box.hideturtle()
-  box.pensize(125)
-  box.pencolor("ivory")
+  box.pensize(200)
+  box.pencolor("beige")
   box.penup()
-  box.goto(-350, 75)
+  box.goto(-40, 75)
   box.pendown()
   box.speed(2)
-  box.forward(800)
+  box.forward(550)
 
+# have music note draw turtle
+# wait a few secs before drawing
+#make letters index one by one
   message = trtl.Turtle()
   message.hideturtle()
   message.speed(0)
   message.penup()
-  message.goto(-357, 39)
+  message.goto(-77, 15)
   message.pencolor("black")
-  message.write(messages[i], font=("Times New Roman", 25, "bold"))
+  message.write(messages[i], font=("Times New Roman", 28, "bold"))
+  
+def play_music(i):
+  global current_song
 
+  if current_song != None:
+    current_song.stop()
+  current_song = ps3.playsound(songs[i], block=False)
+
+'''
+def change_song_clicked(x,y):
+  if # <= x <= # and # <= y <= #: 
+    ps3.playsound("CSP2026/131/select_effect.mp3")
+    change_song()
+
+def change_song():
+  global current_song
+
+  if current_song != None:
+    current_song.stop()
+    current_song = None
+
+  old_bg.hideturtle()
+  record_player.hideturtle()
+
+  chinese_album.showturtle()
+  classical_album.showturtle()
+  english_album.showturtle()
+  chinese_vinyl.showturtle()
+  classical_vinyl.showturtle()
+  english_vinyl.showturtle()
+
+  wn.onclick(album_clicked)
+'''
 #-----events----------------\
 wn.onclick(album_clicked)
 
