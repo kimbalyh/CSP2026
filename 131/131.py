@@ -1,7 +1,7 @@
 # 131 project
 #-----import statements-----
 import turtle as trtl
-# import playsound3 as ps3
+import playsound3 as ps3
 
 #-----game configuration----
 wn = trtl.Screen()
@@ -9,8 +9,11 @@ wn.setup(width= 1600, height= 1000)
 # wn.title("")
 
 albums = ["chinese_album", "classical_album", "english_album"]
-messages = ["Wo ai ni", "U are jazzy", "You rock!"]
-songs = []
+messages = [
+  "Some feelings never grow old. May this melody bring back \n fond memories and remind you how loved you are.", 
+  "May this melody bring warmth to your heart and comfort \n in your soul. Wishing you a peaceful and wonderful day!",
+  "The world is full of little wonders. May you always find \n something beautiful to smile about. You are appreciated!" ]
+
 wn.tracer(0)
 
 target_x = 850
@@ -133,7 +136,8 @@ def vinyl_animation(i):
   selected_vinyl.hideturtle()
 
   # play_music()
-  # wn.ontimer(english_vinyl.hideturtle, 1500)
+  print("musica")
+  display_message(i)
   
 def change_screen():
     wn.tracer(0)
@@ -146,37 +150,26 @@ def change_screen():
     
     wn.tracer(1)
 
-'''
-def display_message():
+#def play_music():
+
+def display_message(i):
   box = trtl.Turtle()
   box.hideturtle()
-  box.pensize(100)
-  box.speed(2)
+  box.pensize(125)
   box.pencolor("ivory")
   box.penup()
   box.goto(-350, 75)
   box.pendown()
+  box.speed(2)
   box.forward(800)
 
-  messanger = trtl.Turtle()
-  messanger.hideturtle()
-  messanger.textcolor("darkred")
-  #selection()
-
-def selection():
-  if chinese vinyl touch record player:
-    chinese song plays (index 0)
-    chinese message displays (index 0)
-  elif classical vinyl touch record player:
-    classical song plays (index 1 or index + 1?)
-    classical message displays  (index 1?)
-  elif english vinyl touch record player:
-    english song plays (index 2)
-    english message displays (index 2) - display_message() fct    
-                                 
-# def play_song():
-
-'''
+  message = trtl.Turtle()
+  message.hideturtle()
+  message.speed(0)
+  message.penup()
+  message.goto(-357, 39)
+  message.pencolor("black")
+  message.write(messages[i], font=("Times New Roman", 25, "bold"))
 
 #-----events----------------\
 wn.onclick(album_clicked)
