@@ -64,15 +64,20 @@ record_player.penup()
 record_player.goto(-450, -50)
 record_player.hideturtle()
 
-'''
-stop_button_img = "CSP2026/131/stop_button_img.gif" #finish making image in canva
-wn.addshape(stop_button_img)
-stop_button = trtl.Turtle(shape=record_player_img)
-stop_button.speed(0)
-stop_button.penup()
-stop_button.goto(150, -50)
-stop_button.hideturtle()
-'''
+box = trtl.Turtle()
+box.hideturtle()
+message = trtl.Turtle()
+message.hideturtle()
+
+#'''
+restart_button_img = "CSP2026/131/restart_button.gif" #finish making image in canva
+wn.addshape(restart_button_img)
+restart_button = trtl.Turtle(shape=restart_button_img)
+restart_button.speed(0)
+restart_button.penup()
+restart_button.goto(525, -150)
+restart_button.hideturtle()
+#'''
 
 chinese_album_img = "CSP2026/131/chinese_album.gif" #make album covers same aesthetic 
 wn.addshape(chinese_album_img)
@@ -127,7 +132,7 @@ def vinyl_animation(i):
   selected_vinyl.showturtle()
 
   ps3.playsound("CSP2026/131/select_effect.mp3")
- # want to put pop here
+ # TODO: want to put pop here (get multiple larger images) or make it go up
   selected_vinyl.speed(4)
   selected_vinyl.setheading(90)
   selected_vinyl.goto(selected_vinyl.xcor(), 240)
@@ -164,13 +169,10 @@ def change_screen():
     english_album.hideturtle()
     old_bg.showturtle()
     record_player.showturtle()
-    # stop_button.showturtle()
     
     wn.tracer(1)
 
 def display_message(i):
-  box = trtl.Turtle()
-  box.hideturtle()
   box.pensize(200)
   box.pencolor("beige")
   box.penup()
@@ -181,47 +183,52 @@ def display_message(i):
 
 # have music note draw turtle
 # wait a few secs before drawing
-#make letters index one by one
-  message = trtl.Turtle()
-  message.hideturtle()
+# make letters index one by one
+# have a now playing.... message
   message.speed(0)
   message.penup()
   message.goto(-77, 15)
   message.pencolor("black")
   message.write(messages[i], font=("Times New Roman", 28, "bold"))
+
+  restart_button.showturtle()
+  wn.onclick(restart_clicked)
   
-def play_music(i):
+def play_music(i): # TODO: fix how music doesn't always stop
   global current_song
 
   if current_song != None:
     current_song.stop()
   current_song = ps3.playsound(songs[i], block=False)
 
-'''
-def change_song_clicked(x,y):
-  if # <= x <= # and # <= y <= #: 
-    ps3.playsound("CSP2026/131/select_effect.mp3")
-    change_song()
+def restart_clicked(x, y):
+   global box, message
 
-def change_song():
-  global current_song
+   if 437.5 <= x <= 612.5 and -237.5 <= y <= -62.5:
+    wn.onclick(None)
+    print("Restart clicked!")
+    if current_song != None:
+      current_song.stop()
 
-  if current_song != None:
-    current_song.stop()
-    current_song = None
+    old_bg.hideturtle()
+    record_player.hideturtle()
+    restart_button.hideturtle()
+    box.clear()
+    message.clear()
 
-  old_bg.hideturtle()
-  record_player.hideturtle()
+    chinese_album.showturtle()
+    classical_album.showturtle()
+    english_album.showturtle()
 
-  chinese_album.showturtle()
-  classical_album.showturtle()
-  english_album.showturtle()
-  chinese_vinyl.showturtle()
-  classical_vinyl.showturtle()
-  english_vinyl.showturtle()
+    chinese_vinyl.goto(-450, -150)
+    classical_vinyl.goto(0, -150)
+    english_vinyl.goto(450, -150)
+    chinese_vinyl.setheading(0)
+    classical_vinyl.setheading(0)
+    english_vinyl.setheading(0)
 
-  wn.onclick(album_clicked)
-'''
+    wn.onclick(album_clicked)
+
 #-----events----------------\
 wn.onclick(album_clicked)
 
