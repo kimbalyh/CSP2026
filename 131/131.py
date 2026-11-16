@@ -6,7 +6,7 @@ import playsound3 as ps3
 #-----game configuration----
 wn = trtl.Screen()
 wn.setup(width= 1600, height= 1000)
-# wn.title("")
+wn.title("Record Player")
 
 albums = ["chinese_album", "classical_album", "english_album"]
 
@@ -16,6 +16,7 @@ messages = [
   "The world is full of little wonders. \n May you always find something beautiful \n to smile about. You are appreciated!" ]
 
 songs = ["CSP2026/131/chinese_song.mp3", "CSP2026/131/classical_song.mp3", "CSP2026/131/english_song.mp3"]
+music = ["The Moon Represents My Heart", "Jazz Suite No.2 VI. Waltz 2", "What A Wonderful World"]
 current_song = None
 
 wn.tracer(0)
@@ -69,7 +70,12 @@ box.hideturtle()
 message = trtl.Turtle()
 message.hideturtle()
 
-#'''
+'''music_notes_img = "CSP2026/131/music_notes.gif" 
+wn.addshape(music_notes_img)
+music_notes = trtl.Turtle(shape=music_notes_img)
+music_notes.penup()
+music_notes.hideturtle()'''
+
 restart_button_img = "CSP2026/131/restart_button.gif" #finish making image in canva
 wn.addshape(restart_button_img)
 restart_button = trtl.Turtle(shape=restart_button_img)
@@ -77,7 +83,6 @@ restart_button.speed(0)
 restart_button.penup()
 restart_button.goto(525, -150)
 restart_button.hideturtle()
-#'''
 
 chinese_album_img = "CSP2026/131/chinese_album.gif" #make album covers same aesthetic 
 wn.addshape(chinese_album_img)
@@ -99,6 +104,20 @@ english_album = trtl.Turtle(shape=english_album_img)
 english_album.speed(0)
 english_album.penup()
 english_album.goto(450, -150)
+
+instruct = trtl.Turtle()
+instruct.hideturtle()
+instruct.speed(0)
+instruct.pensize(50)
+instruct.pencolor("bisque")
+instruct.penup()
+instruct.goto(-200, -380)
+instruct.pendown()
+instruct.forward(400)
+instruct.penup()
+instruct.goto(-187, -398)
+instruct.pencolor("black")
+instruct.write("Please, Select an Album", font=("Times New Roman", 28, "bold"))
 
 wn.tracer(1)
 
@@ -132,7 +151,7 @@ def vinyl_animation(i):
   selected_vinyl.showturtle()
 
   ps3.playsound("CSP2026/131/select_effect.mp3")
- # TODO: want to put pop here (get multiple larger images) or make it go up
+ # TODO: want to put pop here (get multiple larger images) OR ontimer so animation delayed
   selected_vinyl.speed(4)
   selected_vinyl.setheading(90)
   selected_vinyl.goto(selected_vinyl.xcor(), 240)
@@ -158,40 +177,75 @@ def vinyl_animation(i):
 
   ps3.playsound("CSP2026/131/click_effect.mp3", block=False)
   play_music(i)
-  # wait a few secs before displaying a message
+  # TODO: wait a few secs before displaying a message (ontimer?)
   display_message(i)
   
 def change_screen():
-    wn.tracer(0)
+  wn.tracer(0)
 
-    chinese_album.hideturtle()
-    classical_album.hideturtle()
-    english_album.hideturtle()
-    old_bg.showturtle()
-    record_player.showturtle()
-    
-    wn.tracer(1)
+  chinese_album.hideturtle()
+  classical_album.hideturtle()
+  english_album.hideturtle()
+  instruct.clear()
+  old_bg.showturtle()
+  record_player.showturtle()
+  
+  wn.tracer(1)
 
 def display_message(i):
-  box.pensize(200)
-  box.pencolor("beige")
+  '''while current_song != None:
+    music_notes.goto(-350, 100)
+    music_notes.showturtle()
+    music_notes.speed(1)
+    music_notes.goto(-200, 100)
+    music_notes.hideturtle()'''
+
+# TODO: have a now playing.... message
+  box.pensize(40)
+  box.pencolor("bisque")
+  box.penup()
+  box.goto(-50, -120)
+  box.pendown()
+  box.speed(0)
+  box.forward(450)
+
+  message.speed(0)
+  message.penup()
+  message.goto(-30, -132)
+  message.pencolor("black")
+  message.write("Now playing... " + music[i], font=("Times New Roman", 18, "bold", "italic"))
+
+  box.pensize(200) #
+  box.pencolor("bisque") #
   box.penup()
   box.goto(-40, 75)
   box.pendown()
   box.speed(2)
   box.forward(550)
 
-# have music note draw turtle
-# wait a few secs before drawing
-# make letters index one by one
-# have a now playing.... message
+# TODO: make letters index one by one
   message.speed(0)
   message.penup()
   message.goto(-77, 15)
   message.pencolor("black")
   message.write(messages[i], font=("Times New Roman", 28, "bold"))
 
+  box.pensize(35)
+  box.pencolor("bisque")
+  box.penup()
+  box.goto(250, -185)
+  box.pendown()
+  box.speed(0)
+  box.forward(150)
+
+  message.speed(0)
+  message.penup()
+  message.goto(256, -196)
+  message.pencolor("black")
+  message.write("Select New Piece", font=("Times New Roman", 16))
+
   restart_button.showturtle()
+  
   wn.onclick(restart_clicked)
   
 def play_music(i): # TODO: fix how music doesn't always stop
@@ -233,4 +287,3 @@ def restart_clicked(x, y):
 wn.onclick(album_clicked)
 
 wn.mainloop()
-
