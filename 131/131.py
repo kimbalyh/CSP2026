@@ -207,11 +207,11 @@ def display_message(i):
   box.goto(-50, -120)
   box.pendown()
   box.speed(0)
-  box.forward(450)
+  box.forward(460)
 
   message.speed(0)
   message.penup()
-  message.goto(-30, -132)
+  message.goto(-47, -132)
   message.pencolor("black")
   message.write("Now playing... " + music[i], font=("Times New Roman", 18, "bold", "italic"))
 
